@@ -1,0 +1,399 @@
+<h1>Cours | Les bases de la programmation en Ruby</h1>
+
+<h2>1. Introduction</h2>
+<p>Avant de rentrer dans le détail du fonctionnement de Ruby, on voudrait te faire un topo général sur la programmation. L'objectif est que tu comprennes bien la logique globale de l'informatique, comment marche un programme et du coup comment tu dois réfléchir quand tu codes en Ruby.</p>
+<p>Une fois les explications générales faites, on va te présenter l'IRB : cet outil te permet de rentrer du code Ruby à la volée (sans écrire de programme complet dans un fichier) et d'en obtenir le résultat très rapidement à partir de ton terminal. C'est super pratique pour tester quelques lignes de Ruby afin d'en voir le fonctionnement.</p>
+<p>Il y aura très probablement des redites avec ce que tu as déjà vu durant la semaine 0 du préparcours. Mais comme je ne sais pas dans quelles conditions tu as fait cette semaine et vu qu'il n'est jamais mauvais de répéter les choses 2 fois pour bien les fixer, reprenons tout depuis le début.</p>
+
+<h2>2. Historique et contexte</h2>
+<p>La programmation informatique trouve ses origines dans la seconde guerre mondiale lorsque les alliés ont, pour la première fois, utilisé des machines pour accélérer et automatiser le décryptage des messages ennemis. Le domaine est resté assez confidentiel et limité à la recherche, les usages militaires et les entreprises spécialisées jusque dans les années 70 avant d'exploser avec l'avènement des Personal Computers dans les années 80.</p>
+<p>Le langage Ruby a été inventé au moment de la démocratisation d'Internet (milieu des années 90) par le japonais <a href="https://en.wikipedia.org/wiki/Yukihiro_Matsumoto">Yukihiro Matsumoto</a>. Il avait à cœur de créer un langage orienté objet qui soit facile et plaisant à utiliser. C'est d'ailleurs une caractéristique forte de Ruby : on peut le lire presque comme s'il s'agissait de phrases là où de nombreux langages croulent sous les ponctuations indigestes <code> { (  ) } ; </code> et font appel à des fonctions aux noms plus que mystérieux…</p>
+<p>Quant à IRB, c'est l'acronyme de "Interactive Ruby" ("Ruby" étant compressé en RB, l'extension <code>.rb</code> des fichiers Ruby). C'est ce que l'on appelle un "Read–eval–print loop" (REPL) qui sont des types d'environnement permettant d'utiliser un langage via son terminal.</p>
+
+<h2>3. La ressource</h2>
+<h3>3.1. C'est quoi au juste un programme ?</h3>
+<p>Un programme informatique n'est ni plus ni moins qu'une liste d'instructions qui doivent être exécutées par un ordinateur. Ces instructions sont saisies dans un ou plusieurs fichiers qui seront lus et interprétés lors de l'exécution. Mais pour être lisibles par l'ordinateur, il faut que ces instructions soient rédigées dans un langage informatique donné, ce dernier n'étant rien d'autre qu'un ensemble de règles permettant à l'ordinateur (qui lit) et au développeur informatique (qui rédige) de bien se comprendre.</p>
+
+<p>Tout comme une langue vivante, un langage informatique dispose d'un vocabulaire (mots ayant un rôle et une signification spécifique. Par exemple les mots suivants ont une fonction précise en Ruby : <code>puts</code>, <code>Class</code>, <code>if</code>, etc.) et une grammaire (ensemble de règles qui doivent être respectées pour rédiger le programme. Par exemple en Ruby, on doit sauter des lignes entre chaque instruction, terminer une méthode par <code>end</code>, etc.)</p>
+
+<p>Chez THP, nous allons t'apprendre le vocabulaire et la grammaire de Ruby pour que tu disposes de tous les outils nécessaires pour programmer à peu près tout et n'importe quoi. Mais on va également te guider, à travers des projets, dans la rédaction de tes premiers programmes Ruby afin que tu voies directement l'étendue des possibilités qui s'offrent à toi !</p>
+
+<h3>3.2. Quelle est la logique derrière l'écriture d'un programme ?</h3>
+<p>Un programme informatique est toujours écrit dans un but précis : résoudre un problème bien défini. C'est même sa seule raison d'être et la seule raison pour laquelle un développeur l'a, un jour, codé. Et pour arriver à résoudre ce problème, le programme va comporter une série d'actions qu'il va exécuter "froidement" (entendez par là qu'il va les exécuter une à une sans réfléchir).</p>
+
+<p>Mais quand on y regarde de près, ce que nous, humains, faisons au quotidien pourrait également être décrit comme une sorte de programme informatique : pour résoudre un problème (notamment s'il est récurrent et bien connu), nous aussi on déroule une série d'actions. <br>
+Prenons un exemple du quotidien : faire les courses (qui revient à résoudre le problème "je dois remplir mon frigo"). On peut imaginer cela sous la forme d'une suite d'actions du style :</p>
+
+<pre><code class="language-bash">- Entrer dans le magasin
+- Sortir sa liste de courses
+- Lire le premier élément de la liste
+- Se diriger vers le rayon adéquat
+- Si un article correspondant est disponible, le prendre et le mettre dans son panier
+- Lire le second élément de la liste
+- Se diriger vers le rayon adéquat
+- Si un article correspondant est disponible, le prendre et le mettre dans son panier
+- Se diriger vers la caisse
+- Attendre son tour
+- Dire bonjour
+- Présenter les articles à la caisse puis les remettre dans son panier
+- Payer
+- Dire au revoir
+- Sortir du magasin</code></pre>
+
+<p>On retrouve là toutes les caractéristiques d'un programme informatique:</p>
+<ul>
+  <li><b>L'ensemble est découpé en instructions bien distinctes et isolées</b>. C'est pour cela que, naturellement, je l'ai présenté sous forme de liste : à chaque ligne, une instruction.</li>
+  <li><b>Des variables rentrent en jeu</b>. Certaines sont en entrée (une liste de courses qu'on a au départ), d'autres sont utilisées au cours du programme (elles sont stockées dans la tête de la personne qui fait les courses : le nombre d'articles qu'il a mis dans le panier, le nombre d'article restant sur la liste, etc.) et certaines peuvent être transmises en fin de programme (Il va informer ses colocs du prix qu'il a payé pour partager les frais, etc.).</li>
+  <li><b>Certaines instructions sont répétées en boucle</b> : on déroule la liste article par article et à chaque fois on fait la même chose (lecture, déplacement vers le rayon, prendre l'article, le mettre dans le panier, etc.) </li>
+  <li><b>Certaines instructions sont conditionnées à un test</b> : est-ce qu'un article est présent en rayon ? Si oui, le mettre dans le panier. Si non, on continue les courses.</li>
+  <li><b>Certaines instructions se ressemblent beaucoup</b> : seul un élément ou deux change (Se diriger vers le rayon / vers la caisse, Dire Bonjour / Au revoir. C'est typiquement le genre d'instruction qu'on transformera ensuite en méthodes (les fonctions en Ruby).</li>
+</ul>
+
+<p>Au final, si on demandait à un développeur informatique d'écrire un programme pour résoudre le problème "je dois remplir mon frigo", son premier rôle sera de lister la suite logique d'actions à mener. Il aboutirait alors à un résultat proche de la liste d'instructions ci-dessus. </p>
+
+<p>Mais à la différence d'un humain, le programme informatique a une particularité : il est incapable de prendre une initiative. S'il rencontre une situation inconnue, non prévue, il va bloquer : c'est le fameux "bug". Le deuxième rôle du développeur informatique est donc d'anticiper tous les cas de figure possibles (ou a minima un maximum de cas de figure) afin que le programme ne soit jamais bloqué. <br>
+Par exemple, si la personne faisant les courses oublie son portefeuille, on va buguer à l’étape "Payer". Du coup, si ce cas de figure est envisageable, le développeur doit l'anticiper avec une instruction un peu plus détaillée que "Payer". Par exemple :
+
+<pre><code class="language-bash">- Si j'ai bien mon portefeuille, je paye. Sinon je pose mon panier et je sors du magasin.</code></pre>
+
+<p>Idem si jamais la liste de courses contient 3 éléments : dans l'exemple ci-dessus, le 3ème élément ne sera jamais acheté. Il faut pouvoir écrire un programme qui s'adapte s'il y a 3 ou 5 ou 100 éléments sur la liste de courses. Tout cela est ce qu'on appelle <b>l'algorithmie</b>, l'art de rédiger des algorithmes que Wikipédia défini comme "une suite finie et non ambiguë d’opérations ou d'instructions permettant de résoudre une classe de problèmes".</p>
+
+<p>Au final, pour écrire un programme complet et fiable qui résout bien le problème ciblé, un bon développeur doit procéder par étapes :</p>
+<ol>
+  <li>Réfléchir avant de coder à la façon dont les actions doivent se succéder ;</li>
+  <li>Poser les bases de son programme ;</li>
+  <li>Faire tourner (tester) son programme sur des cas simples (ex : je fais mes courses et tout va bien) et le modifier en cas de problème ;</li>
+  <li>Faire tourner (tester) son programme sur des cas tordus mais plausibles (ex : je fais mes courses mais j'ai oublié mon argent / il n'y a pas de caisse libre / un élément de la liste est illisible / etc.) et le modifier en cas de problème.</li>
+</ol>
+
+<h3>3.3. Les actions de bases en Ruby</h3>
+<p>Maintenant que tu as compris la logique globale d'un programme informatique, posons les premières briques d'un programme Ruby. Afin de pratiquer ce que je vais te présenter, tu vas exécuter des instructions en Ruby directement dans ton terminal via l'IRB. Ça va nous éviter d'avoir à rédiger un fichier <code>.rb</code> puis de le lancer.</p>
+<p>Pour démarrer IRB, exécute dans ton terminal:</p>
+<pre><code class="language-bash">$ irb</code></pre>
+
+<p>Pour sortir de IRB, exécute dans l'IRB:</p>
+<pre><code class="language-ruby">2.5.1 :001 > quit</code></pre>
+
+<div class="card box-shadow-0 border-danger">
+  <div class="card-content collapse show">
+    <div class="card-body">
+      <h4 class="card-title">⚠️ ALERTE ERREUR COMMUNE</h4>
+      <p class="card-text">Dans le stress, il est arrivé de voir des moussaillons écrire des lignes de commande destinées à leur terminal (<code>ls</code>, <code>cd ..</code>, <code>git truc</code>, etc.) alors qu'ils étaient dans IRB. Si jamais tu vois des lignes comme ceci dans ton terminal :</p>
+      <pre><code class="language-bash">2.5.1 :001 > git init
+Traceback (most recent call last):
+        2: from /home/felix/.rvm/rubies/ruby-2.5.1/bin/irb:11:in `&lt;main>'
+        1: from (irb):1
+NameError (undefined local variable or method `init' for main:Object)</code></pre>
+      <p>C'est que tu as écrit dans l'IRB une commande destinée à ton terminal : quitte l'IRB, recommence ta saisie et sois plus attentif ! 😉</p>
+    </div>
+  </div>
+</div>
+
+<div class="card box-shadow-0 border-info">
+  <div class="card-content collapse show">
+    <div class="card-body">
+      <h4 class="card-title">🚀 ALERTE BONNE ASTUCE</h4>
+      <p class="card-text">Avec les flèches HAUT et BAS de ton clavier, tu peux naviguer entre les dernières instructions que tu as déjà tapées dans IRB (idem que dans ton terminal). Pratique pour reprendre une instruction passée et la modifier.</p>
+      <p>Avec <code>CTRL + L</code>, tu peux vider ton IRB pour y voir plus clair.</p>
+    </div>
+  </div>
+</div>
+
+<h4>3.3.1. Afficher, avec Ruby, quelque chose dans le terminal</h4>
+<p>Tu connais déjà la méthode <code>puts</code> qui permet d'afficher un résultat de ton programme Ruby directement dans ton terminal. Eh bien sache que dans certains langages, cette même action nécessite 3 lignes de code ! Tape dans ton IRB l'instruction : <code>puts "Hello World!"</code>. Tu devrais obtenir :</p>
+
+<pre><code class="language-bash">2.5.1 :007 > puts "Hello World!"
+Hello World!
+ => nil</code></pre>
+
+ <p>Cet affichage dans IRB signifie qu'une telle instruction aurait affiché <code>Hello World!</code> dans ton terminal (exactement de la façon dont elle s'affiche là). La partie <code>=> nil</code> signifie que cette instruction ne retourne aucune valeur : quand tu mets un <code>puts</code>, aucune variable n'est stockée nulle part.</p>
+
+<h4>3.3.2. Stocker une information dans une variable</h4>
+<p>Une variable, en informatique (ou même en mathématiques), c'est comme une boite dans laquelle on va stocker une information. On va ensuite pouvoir, quand on le souhaite, lire cette information, la modifier, l'utiliser pour faire des opérations ou la supprimer. </p>
+<p>Une variable est définie par : </p>
+<ol>
+  <li><b>Son type</b> : <code>String</code> (chaîne de caractère), <code>Integer</code> (un nombre entier – prononcez [ine-té-djeur]), <code>Float</code> (un nombre avec des décimales), <code>Boolean</code> (soit true soit false, ce qui permet d'avoir une information en mode oui / non).</li>
+  <li><b>Sa valeur</b> :</li>
+  <ul>
+    <li>Boolean (il n'y a que 2 valeurs) : <code>true</code> ou <code>false</code></li>
+    <li>Exemples de Integer : <code>43</code>, etc.</li>
+    <li>Exemples de Float : <code>43.0</code>, <code>43.1</code>, <code>1.3333333</code>, etc.</li>
+    <li>Exemples de string : <code>"hello world"</code>, <code>"43"</code>, <code>"true"</code>, <code>"hello true 43 &@ç£%# "</code>, etc.</li>
+  </ul>
+</ol>
+
+<p>En Ruby, pour déclarer une variable, il suffit d'écrire le nom qu'on veut donner à la variable suivie de <code>=</code> et de la valeur. La valeur saisie déterminera le type de la variable. <br>
+Rentre les lignes suivantes dans IRB (l'une après l'autre) : <code>nom_du_modèle = "Zoé"</code> – <code>kilométrage = 145000</code> – <code>en_vente = true</code></p>
+
+<p>À présent tu peux rappeler quand tu veux ces variables simplement en entrant leur nom. <code>nom_du_modèle</code> te retournera <code>"Zoé"</code>, <code>kilométrage</code> te retourne <code>145000</code>, etc. Si tu sors de l'IRB, l'ensemble des variables que tu auras déclarées seront effacées.</p>
+
+<p>Tu peux modifier ces variables à volonté en changeant tout (leur type, leur valeur) autant de fois que tu le souhaites. Par exemple (fais le test en parallèle sur ton IRB) :</p>
+
+<pre><code class="language-bash">2.5.1 :016 > nom_du_modèle = "Zoé"
+ => "Zoé" 
+2.5.1 :017 > nom_du_modèle = "Tweezy"
+ => "Tweezy" 
+2.5.1 :018 > nom_du_modèle
+ => "Tweezy" 
+2.5.1 :019 > nom_du_modèle = kilométrage
+ => 145000 
+2.5.1 :020 > nom_du_modèle
+ => 145000 </code></pre>
+
+<div class="card box-shadow-0 border-info">
+  <div class="card-content collapse show">
+    <div class="card-body">
+      <h4 class="card-title">🚀 ALERTE BONNE ASTUCE</h4>
+      <p class="card-text">Tu peux facilement obtenir le type d'une variable ou d'une valeur avec la méthode <code>.class</code>. Fais les tests suivants dans ton IRB (fais particulièrement attention aux 4 derniers qui sont intéressants) : </p>
+      <pre><code class="language-bash">2.5.1 :002 > "Zoé".class
+ => String 
+2.5.1 :003 > 145000.class
+ => Integer 
+2.5.1 :004 > kilométrage.class
+ => Integer 
+2.5.1 :005 > 3.5.class
+ => Float 
+2.5.1 :006 > "145000".class
+ => String
+2.5.1 :007 > true.class
+ => TrueClass 
+2.5.1 :008 > false.class
+ => FalseClass </code></pre>
+      <p>Tu auras compris qu'il n'y a pas de class "Boolean" en Ruby mais deux classes <code>TrueClass</code> et <code>FalseClass</code>.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<h4>3.3.3. Obtenir une saisie utilisateur depuis le terminal</h4>
+<p>Pour que l'utilisateur puisse rentrer une information, on utilise la méthode <code>gets.chomp</code> dont le résultat est stocké dans une variable qu'on pourra appeler ensuite. Essaye cela en saisissant dans ton IRB <code>input = gets.chomp</code>, tape quelque chose dans le terminal (suivi de ENTER) et enfin appelle à nouveau la variable dans l'IRB avec <code>input</code> pour vérifier que la donnée a bien été stockée et peut être utilisée.</p>
+<p>Note bien que la saisie via <code>gets.chomp</code> est toujours de type <code>String</code> (même si tu saisis un chiffre, il sera sous forme de <code>String</code>).</p>
+
+<h4>3.3.4. Faire des opérations entre variables</h4>
+<p>Une fois des variables déclarées, on peut les combiner grâce aux opérateurs mathématiques de base : <code>+</code> (addition), <code>-</code> (soustraction), <code>*</code> (multiplication) ou encore <code>/</code>(division). Cela marche évidemment avec des <code>Integer</code> : </p>
+
+<pre><code class="language-bash">2.5.1 :014 > chiffre_1 = 3
+ => 3 
+2.5.1 :015 > chiffre_1 + 4 * chiffre_1
+ => 15 
+2.5.1 :016 > chiffre_1 = chiffre_1 - 1
+ => 2 
+2.5.1 :017 > chiffre_1 + 4 * chiffre_1
+ => 10</code></pre>
+
+ <p>Mais on peut également concaténer 2 strings avec <code>+</code> : </p>
+
+ <pre><code class="language-bash">2.5.1 :018 > dessert = "gateau" + " " + "de riz" 
+ => "gateau de riz" 
+2.5.1 :019 > "je mangerais bien un" + " " + dessert
+ => "je mangerais bien un gateau de riz"</code></pre>
+
+<h4>3.3.5. Opérations et types de données</h4>
+ <p>Si on essaye d'effectuer des opérations entre types différents, Ruby n'est pas d'accord : </p>
+ <pre><code class="language-bash">2.5.1 :020 > 3 + "3"
+Traceback (most recent call last):
+        3: from /usr/share/rvm/rubies/ruby-2.5.1/bin/irb:11:in `<main>'
+        2: from (irb):20
+        1: from (irb):20:in `+'
+TypeError (String can't be coerced into Integer)</code></pre>
+
+<p>Seule solution : changer le type quand c'est possible avec les méthodes <code>.to_s</code> (qui transforme en <code>String</code>), <code>.to_i</code> (qui transforme en <code>Integer</code>) et <code>to_f</code> (qui transforme en <code>Float</code>). Regarde bien en détails les exemples ci-dessous et teste-les dans ton IRB : </p>
+
+ <pre><code class="language-bash">2.5.1 :002 > my_number = "3".to_i
+ => 3 
+2.5.1 :003 > my_number.class
+ => Integer 
+2.5.1 :004 > my_float = "3".to_f
+ => 3.0 
+2.5.1 :005 > my_float.class
+ => Float 
+2.5.1 :006 > word = 3.to_s
+ => "3" 
+2.5.1 :007 > word.class
+ => String </code></pre>
+
+ <div class="card box-shadow-0 border-danger">
+  <div class="card-content collapse show">
+    <div class="card-body">
+      <h4 class="card-title">⚠️ ALERTE ERREUR COMMUNE</h4>
+      <p class="card-text">Un dernier point qui est à l'origine de nombreux cheveux arrachés chez les débutants en code : les opérations entre <code>Integer</code> et <code>Float</code>. Retenez cette règle : une opération ne comportant que des <code>Integer</code> donnera un résultat de type <code>Integer</code> arrondi à l'entier inférieur.<b> Pour obtenir un résultat précis à la virgule près (de type <code>Float</code> donc), il faut qu'au moins une des données de l'opération soit un <code>Float</code></b>. Illustration : </p>
+
+ <pre><code class="language-bash">2.5.1 :023 > 11 / 6
+ => 1 
+2.5.1 :024 > 11.0 / 6
+ => 1.8333333333333333 
+2.5.1 :025 > 11 / 6.to_f
+ => 1.8333333333333333</code></pre>
+
+      <p>Faites très attention aux types de vos données quand vous faites des opérations mathématiques. En ayant uniquement des <code>Integer</code>, vous allez perdre toutes les informations après la virgule et obtenir des résultats grossièrement erronés.</p>
+    </div>
+  </div>
+</div>
+
+<h2>4. Points importants à retenir</h2>
+<p>Un programme est une suite d'instructions destinées à résoudre un problème bien défini. Ces instructions seront lues par un ordinateur qui va les appliquer sans réfléchir, dans l'ordre de leur lecture. Le travail du développeur est de déterminer quelles instructions doivent être effectuées et dans quel ordre afin de résoudre le problème. Il doit anticiper tous les cas envisageables afin d'éviter que l'ordinateur ne se retrouve dans une situation non prévue, synonyme de bug.</p>
+<p>Afin de tester facilement une instruction Ruby, on peut passer par l'IRB que l'on lance dans le terminal avec <code>$ irb</code> et que l'on quitte avec <code>2.5.1 :001 > quit</code>.</p>
+<p>Un programme Ruby peut afficher des données dans le terminal avec la méthode <code>puts</code>. Il peut demander une information, sous forme de <code>String</code>, à l'utilisateur avec la méthode <code>gets.chomp</code>.</p>
+<p>Une variable est une "boîte" permettant de stocker une donnée et définie par son type (String, Integer, Float, Boolean, etc.) et sa valeur ("hello", 4, true, 5.6, etc.)</p>
+<p>On peut faire des opérations entre variables avec les opérateurs mathématiques classiques <code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>. Auparavant, il faut s'assurer du type de donnée que renferme chaque variable, notamment avec <code>.class</code>.</p>
+<p>On peut facilement convertir une variable d'un type à l'autre avec les méthodes <code>to_s</code> (vers un <code>String</code>), <code>to_i</code> (vers un <code>Integer</code>) ou encore <code>to_f</code> (vers un <code>Float</code>).</p>
+
+
+<h2>5. Pour aller plus loin</h2>
+<p>Pour aller plus loin… fini la journée ! 😘</p>
+<p>Si jamais tu veux aller plus loin sur le sujet de l'IRB, sache que tu peux t'amuser à <a href="https://www.rubyguides.com/2016/07/writing-a-shell-in-ruby/" target="_blank">coder toi-même</a> ton propre REPL.</p>
+
+<h1>Cours | Les méthodes (fonctions en Ruby)</h1>
+<h2>1. Introduction</h2>
+<p>En informatique, une fonction est un bout de code que tu peux exécuter et appeler à tout moment. <b>Une fonction a un rôle très précis avec généralement (mais pas obligatoirement) des données en entrée et des données en sortie</b>. Il faut la considérer comme une "mini-usine" qui produit toujours la même chose dès que tu la déclenches (en l'appelant): c'est un concept indispensable et une base fondamentale de l'art de coder. Par exemple, voici un programme qui définit une fonction <code>hello_sayer</code> puis qui l'appelle 2 lignes plus tard :</p>
+
+<pre><code class="language-ruby">def hello_sayer #fonction dont le rôle est d'afficher "Hello world !"
+  puts "Hello world !"
+end
+
+hello_sayer # ligne pour appeler la fonction </code></pre>
+
+<p>Dans cette ressource, nous allons voir comment définir des <b>méthodes</b> en ruby (c'est le nom que ruby donne aux fonctions), et comment s'en servir.</p>
+
+<h2>2. Historique</h2>
+<p>Le terme fonction est inspiré des fonctions mathématiques. Ce concept existe depuis très longtemps et est géré par la majorité des langages de programmation.</p>
+
+<h2>3. La ressource</h2>
+<h3>3.1. Les bases des méthodes</h3>
+<p>Les méthodes peuvent paraître un peu chelou à la base, mais elles sont indispensables pour faire du code propre. Dans le projet du jour, <b>vous allez travailler exclusivement avec des méthodes</b>. Notre ami Jonathan de Grafikart a fait <a href="https://www.grafikart.fr/tutoriels/method-670" target="_blank" class="text-primary">un article et vidéo</a> qui expliquent les méthodes en Ruby.</p>
+
+<h3>3.2. Pourquoi utiliser des méthodes ?</h3>
+<p>Un autre élément important pour produire du code lisible est de <b>classer et tout bien ranger dans des méthodes</b>. Chaque méthode doit avoir une fonction bien précise: elle résout un mini-problème donné. Quand tout un programme est découpé en méthodes, cela permet de plus facilement s'y retrouver, de pouvoir donner un sens à chaque ligne de code (une méthode = un rôle, donc on voit ce que le groupe de lignes de code doit faire), et au final de corriger plus facilement ses bugs. Que des avantages ! <b>Il faut donc organiser votre programme en une succession de méthodes avec interdiction d'avoir du code en dehors d'une méthode.</b> Et pour chapeauter le tout, on rédige une méthode souvent appelée <code>perform</code> qui orchestre l'exécution de la méthode A, puis de la B, puis qui créé une variable qu'on injecte dans la C, etc.</p>
+ <p> ⚠️N'oubliez pas de conclure votre programme par la ligne <code>perform</code> pour appeler cette méthode "orchestre". Sinon il ne se passera rien… 😏 </p> 
+
+
+<h3>3.3. Comment l'ordinateur interprète-t-il les méthodes ?</h3>
+<p>Pour illustrer cela, prenons l'exemple d'un programme qui demande le nom complet de quelqu'un. Nous allons créer une méthode <code>ask_first_name</code> et une méthode <code>ask_last_name</code> que nous allons appeler dans une méthode <code>ask_full_name</code> 👌</p>
+
+<pre><code class="language-ruby">def ask_first_name
+  puts "Quel est ton prénom ?"
+  print "> "
+  first_name = gets.chomp
+  return first_name
+end
+
+def ask_last_name
+  puts "Quel est ton nom de famille ?"
+  print "> "
+  last_name = gets.chomp
+  return last_name
+end
+
+def greet(first_name, last_name)
+  puts "Bienvenue, #{first_name} #{last_name} !"
+end
+
+def perform
+  first_name = ask_first_name
+  last_name = ask_last_name
+  greet(first_name, last_name)
+end
+
+perform</code></pre>
+
+<p>OK quand tu vois ça et que tu viens tout juste de commencer à coder, tu peux pas mal flipper : <b>y a beaucoup de lignes, par où je commence pour piger ce que fait ce programme ?</b> Pas de panique on va t'aider à le décrypter ligne par ligne.</p>
+
+<p>Tout d'abord, on va le lire exactement comme l'ordinateur le lirait : <b>de haut en bas</b>. On commence par le haut donc. <br>
+On voit que le code commence par définir une méthode avec la ligne <code>def ask_first_name</code> : instinctivement tu peux déjà chercher la fin de cette méthode avec le <code>end</code>. Si tu fais ça en cherchant les débuts de méthodes (<code>def</code>) et leurs fins (<code>end</code>) tu vas pouvoir prendre de la hauteur et te rendre compte que ce code est en fait organisé ainsi : </p>
+
+<pre><code class="language-ruby"> [Méthode 1: "ask_first_name" - pas d'entrée]
+
+[Méthode 2: "ask_last_name" - pas d'entrée]
+
+[Méthode 3: "greet" - 2 entrées : "first name" et "last name"]
+
+[Méthode 4: "perform" - pas d'entrée]
+
+[une ligne de code seule qui exécute la méthode "perform"]</code></pre>
+
+<p>On a donc 4 méthodes et en lisant de haut en bas, l'ordinateur va procéder étape par étape. <br>
+⚠️ Prends bien le temps de lire attentivement ce déroulé afin de bien comprendre la logique d'exécution du code. </p>
+
+<h4>Étape 1 : lecture des méthodes (en l'absence de ligne d'exécution)</h4>
+<ol>
+  <li>Il lit la méthode <code>ask_first_name</code>. Elle est définie mais rien ne l’exécute donc il met juste dans un coin de sa mémoire "il faudra lire le contenu de cette méthode si jamais quelque chose l'exécute".</li>
+
+  <li>Il fait pareil avec la méthode <code>ask_last_name</code>. Toujours pas d'exécution donc il ne fait que l'identifier et se dire "ok, une méthode portant ce nom est là". Idem pour les méthodes <code>greet</code> et <code>perform</code>.</li>
+
+  <li>Puis l'ordinateur arrive à la ligne <code>perform</code>. Elle signifie "exécute la méthode nommée <code>perform</code>". <b>Du coup l'ordinateur va enfin exécuter quelque chose !</b> Le code de la méthode va être exécuté :</li>
+<pre><code class="language-ruby">def perform
+  first_name = ask_first_name
+  last_name = ask_last_name
+  greet(first_name, last_name)
+end</code></pre>
+</ol>
+
+<h4>Étape 2 : exécution ligne par ligne de <code>perform</code></h4>
+  <ul>
+    <li><b>La première ligne, <code>first_name = ask_first_name</code></b> défini une variable, <code>first_name</code>, égale au résultat d'une méthode : <code>ask_first_name</code>.</li>
+
+    <ul>
+      <li> Hop, l'ordinateur va exécuter : </li>
+<pre><code class="language-ruby">def ask_first_name
+  puts "Quel est ton prénom ?"
+  print "> "
+  first_name = gets.chomp
+  return first_name
+end</code></pre>
+
+     <li>Si tu regardes les 4 lignes de code de cette méthode <code>ask_first_name</code>, tu vois qu'elle demande son prénom à l'utilisateur et retourne la saisie clavier de celui-ci. Ce <code>return</code> va être renvoyé dans la méthode <code>perform</code> et stocké dans la variable <code>first_name</code>.</li>
+    </ul>
+
+    <li><b>La seconde ligne de <code>perform</code> est <code>last_name = ask_last_name</code></b>. C'est la même logique qu'avant : il faut exécuter la méthode <code>ask_last_name</code> pour que son résultat soit stocké dans la variable <code>last_name</code></li>
+
+    <ul>
+      <li> Hop, l'ordinateur va exécuter : </li>
+<pre><code class="language-ruby">def ask_last_name
+  puts "Quel est ton nom de famille ?"
+  print "> "
+  last_name = gets.chomp
+  return last_name
+end</code></pre>
+
+     <li>Idem que précédemment, cette méthode demande, sur 4 lignes, le nom de famille de l'utilisateur et retourne sa saisie clavier. Ce <code>return</code> va être renvoyé dans la méthode <code>perform</code> et stocké dans la variable <code>last_name</code>.</li>
+    </ul>
+
+    <li><b>La dernière ligne de <code>perform</code> fait <code>greet(first_name, last_name)</code></b> : elle injecte les 2 variables <code>first_name</code> et <code>last_name</code> (issues des saisies clavier de l'utilisateur) dans la méthode <code>greet</code> qui va donc être exécutée.</li>
+
+    <ul>
+      <li>Voici le contenu de la méthode <code>greet</code> qui est exécutée en dernier :</li>
+<pre><code class="language-ruby">def greet(first_name, last_name)
+  puts "Bienvenue, #{first_name} #{last_name} !"
+end</code></pre>
+      <li>Cette méthode va tout simplement imprimer les deux entrées de la méthode : <code>first_name</code> et <code>last_name</code></li>
+    </ul>
+  </ul>
+
+<h4>Étape 3 : fin du programme</h4>
+  <p>On vient de passer la dernière ligne de la méthode <code>perform</code>. L'ordinateur va voir s'il y a quelque chose après la ligne <code>perform</code>. Comme il n'y a plus de code, l'exécution s'arrête</p>
+
+<p>Au final chaque méthode a eu un rôle précis :</p>
+<ul>
+  <li>Les méthodes <code>ask_first_name</code> et <code>ask_last_name</code> ont un rôle simple de demande de saisie à l'utilisateur et d'envoi de cette saisie.</li>
+  <li>la méthode <code>perform</code> orchestre le tout en appelant ces deux méthodes puis en injectant leurs 2 retours dans la méthode <code>greet</code></li>
+  <li>La méthode <code>greet</code> a également un rôle simple d'affichage du prénom et du nom qu'on lui donne.</li>
+</ul>
+
+<p>Voilà un programme simple et bien organisé !</p>
+
+
+
+<h2>4. Points importants à retenir</h2>
+<p>Les méthodes sont des petits robots-usines qui vous sont dévoués et qui exécuteront inlassablement les mêmes tâches pour vous : à vous de coder votre petite armée !</p>
+<p> Mais l'usage de méthode est aussi une technique indispensable pour bien ranger son code. Pour créer une méthode il faut faire :</p>
+<pre><code class="language-ruby">def ma_methode(local_variable)
+  # du code qu'elle exécutera à chaque fois
+end</code></pre>
+<p>Et pour l'appeler (et lancer son exécution) :</p>
+<pre><code class="language-ruby">ma_methode(une_super_variable)</code></pre>
+
+<p>Enfin, une bonne pratique est de ne pas faire dépasser 25 lignes à une méthode. Si ta méthode dépasse 25 lignes, coupe-la en plusieurs méthodes remplissant chacune une petite partie du rôle de la méthode initiale.</p>
+
+<h2>5. Pour aller plus loin</h2>
+<p>LaunchSchool ont aussi écrit <a href="https://launchschool.com/books/ruby/read/methods" target="_blank">un chouette article</a> assez exhaustif sur les méthodes de Ruby.</p>
