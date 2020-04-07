@@ -4,5 +4,5 @@
 puts "quelles est ton année de naissance"
 print ">"
 annee_naissance = gets.chomp
-age = 2017 - annee_naissance.to_i
-puts "ton age était de #{age} en 2017"
+#age = 2017 - annee_naissance.to_i
+puts "ton age était de #{2017 - annee_naissance.to_i} en 2017"
